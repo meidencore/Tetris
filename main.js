@@ -217,4 +217,14 @@ function removeRows () {
   })
 }
 
-update()
+const $section = document.querySelector('section')
+$section.addEventListener('click', () => {
+  
+  $section.remove()
+
+  update()
+  const audio = new window.Audio('./media/tetris.mp3')
+  audio.volume = 0.5
+  audio.loop = true
+  audio.play()
+})
