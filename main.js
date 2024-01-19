@@ -195,6 +195,8 @@ function solidifyPiece() {
   if (checkCollision(piece.shape)) {
     window.alert('Game Over, Sorry!!')
     board.forEach(rows => rows.fill(0))
+    score = 0
+    $score.innerText = score
   }
 
 }
