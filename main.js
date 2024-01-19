@@ -14,7 +14,7 @@ canvas.width = BLOCK_SIZE * BOARD_WIDTH
 context.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 function createBoard(height, width) {
-  return Array(height).fill().map(() => () => Array(width).fill(0))
+  return Array(height).fill().map(() => Array(width).fill(0))
 }
 
 const board = createBoard(BOARD_HEIGHT, BOARD_WIDTH)
