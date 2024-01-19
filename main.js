@@ -8,6 +8,10 @@ const BLOCK_SIZE = 20
 const BOARD_WIDTH = 10
 const BOARD_HEIGHT = 20
 
+const $score = document.querySelector('span')
+
+let score = 0
+
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 
@@ -201,6 +205,8 @@ function removeRows () {
   board.forEach((row, y) => {
     if (row.every(value => value === 1)) {
       rowsToRemove.push(y)
+      score += 10
+      $score.innerText = score
     }
   })
 
