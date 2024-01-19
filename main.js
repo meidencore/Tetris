@@ -14,12 +14,10 @@ canvas.width = BLOCK_SIZE * BOARD_WIDTH
 context.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 function createBoard(height, width) {
-  return Array(height).fill().map(Array(width).fill(0))
+  return Array(height).fill().map(() => Array(width).fill(0))
 }
 
-
 const board = createBoard(BOARD_HEIGHT, BOARD_WIDTH)
-
 
 // Pieces
 const PIECES = [
@@ -79,7 +77,7 @@ function update (time = 0) {
 
   if(dropCounter > 1000) {
     piece.position.y++ 
-    if (checkCollision()) {
+    if (checkCollision(piece.shape)) {
       piece.position.y--
       solidifyPiece()
       removeRows()
@@ -118,37 +116,56 @@ function draw() {
 
 // Rotate Piece
 
+function rotatePiece (pieceShape) {
+  const rows = pieceShape.length;
+  const columns = pieceShape[0].length;
+  const rotatedPiece = Array(columns).fill().map(() => Array(rows).fill(0));
+  for (let i = 0; i < rows; i++ ) {
+    const mirrorPosition = rows-1-i
+    for (let j = 0; j < columns; j++) {
+      rotatedPiece[j][mirrorPosition] = pieceShape[i][j]
+    }
+  }
+  
+  const prevShape = pieceShape
+  if (checkCollision(rotatedPiece)) {
+    return prevShape
+  }
+
+  return rotatedPiece
+}
+
 document.addEventListener('keydown', event => {
   // Move Left
   if (event.key === 'ArrowLeft') {
     piece.position.x--
-    if (checkCollision()) {
+    if (checkCollision(piece.shape)) {
       piece.position.x++
     }
   }
   // Move Right
   if (event.key === 'ArrowRight') {
     piece.position.x++
-    if (checkCollision()) {
+    if (checkCollision(piece.shape)) {
       piece.position.x--
     }
   }
   // Drop Faster
   if (event.key === 'ArrowDown') {
     piece.position.y++
-    if (checkCollision()) {
+    if (checkCollision(piece.shape)) {
       piece.position.y--
       solidifyPiece()
       removeRows()
     }
   }
   // Rotate
-  if (event.key === 'ArrowUp') {rotatePiece()}
+  if (event.key === 'ArrowUp') {piece.shape = rotatePiece(piece.shape)}
   } 
 )
 
-function checkCollision () {
-  return piece.shape.find((row, y) => {
+function checkCollision (pieceShape) {
+  return pieceShape.find((row, y) => {
     return row.find((value, x) => {
       return (
         value !== 0 &&
@@ -171,7 +188,7 @@ function solidifyPiece() {
   piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)]
   piece.position.x = Math.floor(Math.random() * (BOARD_WIDTH - (piece.shape[0].length - 1)))
   piece.position.y = 0
-  if (checkCollision()) {
+  if (checkCollision(piece.shape)) {
     window.alert('Game Over, Sorry!!')
     board.forEach(rows => rows.fill(0))
   }
