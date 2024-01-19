@@ -34,7 +34,6 @@ function createBoard(rows, columns) {
 
 const board = createBoard(BOARD_HEIGHT, BOARD_WIDTH)
 
-console.log(board)
 
 // Player Piece
 // Pieces Array
@@ -73,22 +72,20 @@ const PIECES = [
   ]  
 ]
 
-console.log(PIECES.length)
-
 const piece = {
-  position: {x: 5, y: 6},
+  position: {x: 6, y: 0},
   shape: [
     [1,1],
-    [1,1]
+    [1,1],
   ]
 }
 
 
 // Game Loop
-// function update() {
-//   draw()
-//   window.requestAnimationFrame(update)
-// }
+function update() {
+  draw()
+  window.requestAnimationFrame(update)
+}
 
 // AutoDrop
 
@@ -167,13 +164,7 @@ document.addEventListener('keydown', event => {
     }
   }
   // Rotate
-  if (event.key === 'ArrowUp') {
-    piece.shape.forEach((row, y) => {
-      row.forEach((column, x) =>{
-        
-      })
-    }
-  )}
+  if (event.key === 'ArrowUp') {rotatePiece()}
   } 
 )
 
