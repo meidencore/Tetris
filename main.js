@@ -4,39 +4,24 @@ import './style.css'
 // Inicializar el canvas
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
-
 const BLOCK_SIZE = 20
-const BOARD_WIDTH = 14
-const BOARD_HEIGHT = 30
+const BOARD_WIDTH = 10
+const BOARD_HEIGHT = 20
 
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 
 context.scale(BLOCK_SIZE, BLOCK_SIZE)
 
-function createBoard(rows, columns) {
-  const board = []
-  for (let i = 0; i < rows; i++) {
-    // dev propose, not needed when after
-    if (i === BOARD_HEIGHT - 1) {
-      board.push([1,1,1,1,1,1,1,1,0,0,1,1,1,1])
-      continue
-    }
-    /////////////////////////////////////////////////
-    const row = []
-    for (let j =0; j < columns; j++) {
-      row.push(0)
-    }
-    board.push(row)
-  }
-  return board
+function createBoard(height, width) {
+  return Array(height).fill().map(Array(width).fill(0))
 }
+
 
 const board = createBoard(BOARD_HEIGHT, BOARD_WIDTH)
 
 
-// Player Piece
-// Pieces Array
+// Pieces
 const PIECES = [
   [
     [1,1],
@@ -81,13 +66,7 @@ const piece = {
 }
 
 
-// Game Loop
-function update() {
-  draw()
-  window.requestAnimationFrame(update)
-}
-
-// AutoDrop
+// Game Loop & AutoDrop
 
 let dropCounter = 0
 let lastTime = 0
